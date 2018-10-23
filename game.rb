@@ -48,7 +48,7 @@ class Game < Location
 
   # Displays which location the player is coming from, and where they are heading to.
 
-  def display_location_message last_location
+  def display_move_from last_location
     print "Heading from #{last_location} to #{PLAYER.current_location.name}, "
     puts "holding #{get_units(PLAYER.gold)} of gold and #{get_units(PLAYER.silver)} of silver."
   end
@@ -63,6 +63,8 @@ class Game < Location
     end
   end
 
+  # Displays the amount of silver or gold found in a single iteration.
+
   def display_findings silver_found, gold_found, location
     if silver_found == 0 and gold_found == 0
       display_no_metals_found(location)
@@ -72,17 +74,24 @@ class Game < Location
     end
   end
 
+  # Called by display_findings to display how much of a metal was found at a location for one iteration.
+
   def display_metal_found amount, metal, location
     if amount > 0
       puts "\tFound #{get_units(amount)} of #{metal} in #{location}"
     end
   end
 
+  # Called by display_findings if no silver or gold has been found at a location
+  # to display that no metals have been found
+
   def display_no_metals_found location
     puts "\tFound no precious metals in #{location}."
   end
 
-  # Displays the result of the game for one player
+  # Displays the result of the game for one player:
+  # Includes the total number of days, name of the prospector, 
+  # amount of gold, amount of silver, and the total money's worth of the metals.
 
   def display_results
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
@@ -115,15 +124,11 @@ class Game < Location
     return gold, silver
   end 
   
-  # Determines if the miner should continue to search at the current location.
-  # Returns false if the miner finds no silver and no gold. Returns true otherwise. 
+  # Determines if the miner should stop searching at the current location.
+  # Returns true if the miner finds no silver and no gold. 
 
-  def continue_search? silver, gold
-    if silver == 0 && gold == 0 
-      return false 
-    else 
-      return true
-    end
+  def stop_search? silver, gold
+    return silver == 0 && gold == 0 
   end
 
   # Searches for gold in a given location. Prospects at the location until the miner finds 
@@ -132,53 +137,60 @@ class Game < Location
   def search location
     gold_found, silver_found = prospect(location)
     save(silver_found, gold_found)
-    PLAYER.add_day
     display_findings(silver_found, gold_found, location.name)  
-    return continue_search?(silver_found, gold_found)
+    return !stop_search?(silver_found, gold_found)
   end
 
-  # Calls a method to  display the amounts of silver and gold found at a location in proper units.
-
+  # Saves the amount of silver and gold found in one iteration to player data.
+  # Adds 1 day to the total.
+  
   def save silver_found, gold_found
     PLAYER.add_silver(silver_found)
     PLAYER.add_gold(gold_found)
+    PLAYER.add_day
   end
+
+  # Increment the number of locations the miner has visited. If the miner has visited
+  # less than 5 locations, set the player's current location to one of the location's
+  # neighbors. Display the old and new locations.  
 
   def move_from location
     PLAYER.add_visit
     if PLAYER.visits < 5 
       last_location = location.name
       PLAYER.set_location(next_location(PLAYER.current_location))
-      display_location_message last_location
+      display_move_from last_location
     end
+  end
+
+  # Resets player data by setting the values of gold, silver, days, and visits to 0.
+  # Sets the player's location to Sutter Creek.
+
+  def reset_player
+    PLAYER.reset
+    PLAYER.set_location(SUTTER_CREEK)
   end
 
   # During the first three locations a prospector searches, they shall leave a location 
   # if they find no silver and no gold. If they find any silver or gold, 
   # they will stay at the location for another iteration.
+  # During the final two locations a prospector searches, they shall leave a location if 
+  # they find one ounce or fewer of gold and two ounces or fewer of silver. If they find 
+  # either two ounces or more of gold, or three ounces or more of silver, they will remain.
 
   # Play the game
 
-  def play name
-    PLAYER.set_name(name)
+  def play which_player
+    PLAYER.set_name(which_player)
     display_starting_message
     while PLAYER.visits < 5
-      location = PLAYER.current_location
-      while(search(location)) 
+      while(search(PLAYER.current_location)) 
       end
-      move_from location
+      move_from PLAYER.current_location
     end
-
     display_results
-    PLAYER.reset
-    PLAYER.set_location(SUTTER_CREEK)
-
-
-    
-  
+    reset_player
   end
-
-
 
 end # end of game class
 

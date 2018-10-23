@@ -45,18 +45,22 @@ class Player
     @days
   end
 
+  # Increment days by 1
   def add_day
     @days += 1
   end
 
+  # Increment visits by 1
   def add_visit
     @visits += 1
   end
 
+  # Update total amount of silver
   def add_silver silver_found
     @silver += silver_found
   end 
 
+  # Update total amount of gold
   def add_gold gold_found
     @gold += gold_found
   end
