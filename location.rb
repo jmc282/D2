@@ -1,7 +1,7 @@
 class Location
 
   # Initialization of location
-  def initialize(name, max_silver, max_gold, amt_neighbors)
+  def initialize name, max_silver, max_gold, amt_neighbors
   	@name = name
   	@max_silver = max_silver
   	@max_gold = max_gold
@@ -9,7 +9,7 @@ class Location
   	@neighbors
   end
 
-  def set_neighbors(first_neighbor, second_neighbor, third_neighbor, fourth_neighbor)
+  def set_neighbors first_neighbor, second_neighbor, third_neighbor, fourth_neighbor
   	@neighbors = [first_neighbor, second_neighbor, third_neighbor, fourth_neighbor]
   end
 
