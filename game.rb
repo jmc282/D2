@@ -21,17 +21,16 @@ class Game < Location
   COLOMA.set_neighbors SUTTER_CREEK, VIRGINIA_CITY, nil, nil
   ANGELS_CAMP.set_neighbors SUTTER_CREEK, NEVADA_CITY, VIRGINIA_CITY, nil
   NEVADA_CITY.set_neighbors ANGELS_CAMP, nil, nil, nil
+  VIRGINIA_CITY.set_neighbors ANGELS_CAMP, COLOMA, MIDAS, EL_DORADO
   MIDAS.set_neighbors VIRGINIA_CITY, EL_DORADO, nil, nil
   EL_DORADO.set_neighbors VIRGINIA_CITY, MIDAS, nil, nil
-  VIRGINIA_CITY.set_neighbors ANGELS_CAMP, COLOMA, MIDAS, EL_DORADO
 
-  PLAYER = Player.new SUTTER_CREEK, 1, 0, 0
+  PLAYER = Player.new SUTTER_CREEK, 0, 0
 
   # Initialization of game
 
-  def initialize seed, player
+  def initialize seed
     @seed = seed                # seed value for the game
-    @which_player = player 		  # which player is playing (i.e Prospector 1)
     @prng = Random.new(seed)    # pseudorandom number generator using argument seed value
   end
 
@@ -42,7 +41,7 @@ class Game < Location
   end 
 
   def display_starting_message
-    puts "Prospector #{@which_player} starting in #{PLAYER.current_location.name}."
+    puts "Prospector #{PLAYER.name} starting in #{PLAYER.current_location.name}."
   end
 
   def display_location_message last_location
@@ -113,22 +112,34 @@ class Game < Location
     PLAYER.add_gold(gold_found)
   end
 
+  def move_from location
+    PLAYER.add_visit
+    if PLAYER.visits < 5 
+      last_location = location.name
+      PLAYER.set_location(next_location(PLAYER.current_location))
+      display_location_message last_location
+    end
+  end
+
   # During the first three locations a prospector searches, they shall leave a location 
   # if they find no silver and no gold. If they find any silver or gold, 
   # they will stay at the location for another iteration.
 
   # Play the game
 
-  def play
+  def play name
+    PLAYER.set_name(name)
     display_starting_message
-    5.times do 
-      while(search(PLAYER.current_location)) 
-        break if search(PLAYER.current_location) == false
+    while PLAYER.visits < 5
+      location = PLAYER.current_location
+      while(search(location)) 
       end
-      last_location = PLAYER.current_location.name
-      PLAYER.set_location(next_location(PLAYER.current_location))
-      display_location_message last_location
+      move_from location
     end
+
+    PLAYER.reset
+    PLAYER.set_location(SUTTER_CREEK)
+
 
     
   

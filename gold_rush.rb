@@ -34,10 +34,14 @@ valid_args = check_args ARGV
 # Otherwise, show proper usage message and exit program
 
 if valid_args
+  which_player = 0
   seed = ARGV[0].to_i
   num_players = ARGV[1].to_i
-  g = Game.new seed, num_players
-  g. play
+  g = Game.new seed
+  num_players.times do 
+    which_player += 1
+    g.play which_player.to_s
+  end
 else
   show_usage_and_exit
 end

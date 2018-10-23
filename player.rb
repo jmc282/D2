@@ -1,12 +1,28 @@
 class Player
 
   # Initialization of Player
-  def initialize current_location, visits, silver, gold
-	@current_location = current_location
-	@visits = visits
-	@silver = silver
-	@gold = gold
-  @days = 0
+  def initialize current_location, silver, gold
+  	@name
+    @current_location = current_location
+  	@silver = silver
+  	@gold = gold
+    @visits = 0
+    @days = 0
+  end
+
+  def reset
+    @gold = 0
+    @silver = 0
+    @visits = 0
+    @days = 0
+  end
+
+  def name
+    @name
+  end
+
+  def set_name name
+    @name = name
   end
 
   def current_location
@@ -31,6 +47,10 @@ class Player
 
   def add_day
     @days += 1
+  end
+
+  def add_visit
+    @visits += 1
   end
 
   def add_silver silver_found
