@@ -18,7 +18,7 @@ end
 # 3. The *num_prospectors* argument, when converted to an integer, is nonnegative
 # Returns false otherwise
 
-def check_args args
+def check_args(args)
   args.count == 2 && args[1].to_i > 0
 rescue StandardError
   false
@@ -38,7 +38,7 @@ if valid_args
   seed = ARGV[0].to_i
   num_players = ARGV[1].to_i
   g = Game.new(seed)
-  num_players.times do 
+  num_players.times do
     which_player += 1
     g.play which_player.to_s
   end
