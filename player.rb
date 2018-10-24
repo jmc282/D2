@@ -1,4 +1,4 @@
-class Player
+ class Player
 
   # Initialization of Player
   def initialize current_location, silver, gold

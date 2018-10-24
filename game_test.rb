@@ -16,22 +16,38 @@ class GameTest < Minitest::Test
 	def test_random_int
 	end
 
+	# UNIT TESTS FOR METHOD
+	# def test_display_starting_message
+	#   SUTTER_CREEK = Location.new 'Sutter Creek', 0, 2, 2
+	#   player = Player::new SUTTER_CREEK, 0, 0	
+	#   assert_output(/"Prospector 1 starting in Sutter Creek.\n"/) {@g.display_starting_message}
+	# end
+
 	# UNIT TESTS FOR METHOD get_units(amount)
 	# Equivalence classes:
 	# amount == 1 -> returns "1 ounce"
 	# amount != 1 -> returns "#{amount} ounces" 
-	# amount == (not a number)??
+	# amount = (not a number)??
 	def test_get_units_ounce
-		assert_equal @g.get_units(1), "1 ounce"
+	  assert_equal @g.get_units(1), "1 ounce"
 	end
 
 	def test_get_units_ounces
-		assert_equal @g.get_units(5), "5 ounces"
+	  assert_equal @g.get_units(5), "5 ounces"
 	end
 
-	# UNIT TESTS FOR METHOD 
+	def test_get_units_ounce_less_1
+      assert_raise @g.get_units(-1), UnitError
+  	end
+
+	# UNIT TESTS FOR METHOD convert_currency
 	def test_convert_currency
+	  assert_equal @g.convert_currency(1, 0), "$1.00"
 	end
+
+	def test_convert_currency_negative
+      assert_raise NegativeCurrencyError
+  	end
 
 	# UNIT TESTS FOR METHOD stop_search?(silver, gold)
 	# Equivalence classes:
@@ -40,11 +56,11 @@ class GameTest < Minitest::Test
 	# silver != 0, gold == 0	false
 	# silver != 0, gold != 0	false
 	def test_stop_search_if_none_found
-		assert_equal @g.stop_search?(0, 0), true
+	  assert_equal @g.stop_search?(0, 0), true
 	end
 
 	def test_do_not_stop_search
-		assert_equal @g.stop_search?(1, 0), false
+	  assert_equal @g.stop_search?(1, 0), false
 	end
 
 end

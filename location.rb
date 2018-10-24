@@ -10,7 +10,7 @@ class Location
   end
 
   def set_neighbors first_neighbor, second_neighbor, third_neighbor, fourth_neighbor
-  	@neighbors = [first_neighbor, second_neighbor, third_neighbor, fourth_neighbor]
+    @neighbors = [first_neighbor, second_neighbor, third_neighbor, fourth_neighbor]
   end
 
   def amt_neighbors

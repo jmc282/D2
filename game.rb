@@ -97,13 +97,16 @@ class Game < Location
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
     puts "\t#{get_units(PLAYER.gold)} of gold." 
     puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency}"
+    puts "\tHeading home with #{convert_currency(PLAYER.gold, PLAYER.silver)}"
   end
 
   # Converts currency to dollars
 
-  def convert_currency
-    return "$"
+  def convert_currency gold, silver
+    gold_currency = gold * 20.67
+    silver_currency = silver * 1.31
+    total_currency = gold_currency + silver_currency
+    return "$" + total_currency.round(2).to_s
   end
 
   # Finds which location the miner heads to next, given the current location.
