@@ -1,7 +1,15 @@
+# Class defining Player object
 class Player
+  attr_accessor  :name
+  attr_accessor  :current_location
+  attr_accessor  :silver
+  attr_accessor  :gold
+  attr_accessor  :visits
+  attr_accessor  :days
+
   # Initialization of Player
   def initialize(current_location, silver, gold)
-    @name
+    @name = NULL
     @current_location = current_location
     @silver = silver
     @gold = gold
@@ -9,6 +17,7 @@ class Player
     @days = 0
   end
 
+  # Reset players variables to 0
   def reset
     @gold = 0
     @silver = 0
@@ -16,32 +25,9 @@ class Player
     @days = 0
   end
 
-  def name
-    @name
-  end
-
-  def set_name(name)
+  # Set Player name
+  def player_name(name)
     @name = name
-  end
-
-  def current_location
-    @current_location
-  end
-
-  def visits
-    @visits
-  end
-
-  def silver
-    @silver
-  end
-
-  def gold
-    @gold
-  end
-
-  def days
-    @days
   end
 
   # Increment days by 1
@@ -65,8 +51,7 @@ class Player
   end
 
   # Sets the location of the gold miner
-  def set_location(location)
+  def location(location)
     @current_location = location
   end
-
 end
