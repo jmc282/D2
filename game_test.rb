@@ -12,14 +12,14 @@ class GameTest < Minitest::Test
       @g = Game::new 10
     end
 
-	# UNIT TESTS FOR METHOD 
+	# UNIT TESTS FOR METHOD
 	def test_random_int
 	end
 
 	# UNIT TESTS FOR METHOD get_units(amount)
 	# Equivalence classes:
 	# amount == 1 -> returns "1 ounce"
-	# amount != 1 -> returns "#{amount} ounces" 
+	# amount != 1 -> returns "#{amount} ounces"
 	# amount == (not a number)??
 	def test_get_units_ounce
 		assert_equal @g.get_units(1), "1 ounce"
@@ -29,9 +29,18 @@ class GameTest < Minitest::Test
 		assert_equal @g.get_units(5), "5 ounces"
 	end
 
-	# UNIT TESTS FOR METHOD 
+  def test_get_units_ounce_less_1
+    assert_raise UnitError
+  end
+
+	# UNIT TESTS FOR METHOD
 	def test_convert_currency
+    assert_equal @g.convert_currency(1, 0), "$1.00"
 	end
+
+  def test_convert_currency_negative
+    assert_raise NegativeCurrencyError
+  end
 
 	# UNIT TESTS FOR METHOD stop_search?(silver, gold)
 	# Equivalence classes:
