@@ -104,6 +104,7 @@ class Game < Location
   # Converts currency to dollars
 
   def convert_currency gold, silver
+    if(gold < 0 || silver < 0) raise NegativeCurrencyError
     gold_currency = gold * 20.67
     silver_currency = silver * 1.31
     total_currency = gold_currency + silver_currency

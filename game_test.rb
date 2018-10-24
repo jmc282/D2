@@ -30,7 +30,7 @@ class GameTest < Minitest::Test
 	end
 
   def test_get_units_ounce_less_1
-    assert_raise UnitError
+    assert_raise @g.get_units(-1), UnitError
   end
 
 	# UNIT TESTS FOR METHOD
@@ -39,7 +39,7 @@ class GameTest < Minitest::Test
 	end
 
   def test_convert_currency_negative
-    assert_raise NegativeCurrencyError
+    assert_raise @g.convert_currency(-1, -1), NegativeCurrencyError
   end
 
 	# UNIT TESTS FOR METHOD stop_search?(silver, gold)

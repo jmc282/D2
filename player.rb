@@ -1,11 +1,10 @@
 class Player
-
   # Initialization of Player
-  def initialize current_location, silver, gold
-  	@name
+  def initialize(current_location, silver, gold)
+    @name
     @current_location = current_location
-  	@silver = silver
-  	@gold = gold
+    @silver = silver
+    @gold = gold
     @visits = 0
     @days = 0
   end
@@ -21,24 +20,24 @@ class Player
     @name
   end
 
-  def set_name name
+  def set_name(name)
     @name = name
   end
 
   def current_location
-  	@current_location
+    @current_location
   end
 
   def visits
-  	@visits
+    @visits
   end
 
   def silver
-  	@silver
+    @silver
   end
 
   def gold
-  	@gold
+    @gold
   end
 
   def days
@@ -56,17 +55,17 @@ class Player
   end
 
   # Update total amount of silver
-  def add_silver silver_found
+  def add_silver(silver_found)
     @silver += silver_found
-  end 
+  end
 
   # Update total amount of gold
-  def add_gold gold_found
+  def add_gold(gold_found)
     @gold += gold_found
   end
 
   # Sets the location of the gold miner
-  def set_location location
+  def set_location(location)
   	@current_location = location
   end
 
