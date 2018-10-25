@@ -48,7 +48,7 @@ class Game < Location
 
   # Returns the amount of gold or silver with appropiate units in ounces.
   def get_units(amount)
-    raise 'Cannot get less than 1 unit.' if amount < 1
+    raise 'Cannot get less than 1 unit.' if amount < 0
 
     if amount == 1
       '1 ounce'
@@ -70,7 +70,7 @@ class Game < Location
   # Called by display_findings to display how much of a metal was found at a location for one iteration.
 
   def display_metal_found(amount, metal, location)
-    return if amount < 0
+    return if amount <= 0
 
     puts "\tFound #{get_units(amount)} of #{metal} in #{location}"
   end
@@ -89,7 +89,7 @@ class Game < Location
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
     puts "\t#{get_units(PLAYER.gold)} of gold."
     puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency}"
+    puts "\tHeading home with #{convert_currency(PLAYER.gold, PLAYER.silver)}"
   end
 
   # Converts currency to dollars
@@ -99,7 +99,7 @@ class Game < Location
     gold_currency = gold * 20.67
     silver_currency = silver * 1.31
     total_currency = gold_currency + silver_currency
-    '$' + total_currency.round(2).to_str
+    '$' + total_currency.round(2).to_s
   end
 
   # Finds which location the miner heads to next, given the current location.
@@ -145,11 +145,11 @@ class Game < Location
   # less than 5 locations, set the player's current location to one of the location's
   # neighbors. Display the old and new locations.
   def move_from(location)
-    return Player.add_visit if Player.visits < 5
-
     PLAYER.add_visit
+    return if PLAYER.visits >= 5
+
     last_location = location.name
-    PLAYER.set_location(next_location(PLAYER.current_location))
+    PLAYER.location(next_location(PLAYER.current_location))
     display_move_from last_location
   end
 
@@ -169,7 +169,7 @@ class Game < Location
 
   # Play the game
   def play(which_player)
-    PLAYER.name(which_player)
+    PLAYER.player_name(which_player)
     display_starting_message
     while PLAYER.visits < 5
       while search(PLAYER.current_location)
