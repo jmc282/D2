@@ -9,7 +9,7 @@ class Player
 
   # Initialization of Player
   def initialize(current_location, silver, gold)
-    @name = NULL
+    @name = nil
     @current_location = current_location
     @silver = silver
     @gold = gold

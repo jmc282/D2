@@ -157,7 +157,7 @@ class Game < Location
   # Sets the player's location to Sutter Creek.
   def reset_player
     PLAYER.reset
-    PLAYER.set_location(SUTTER_CREEK)
+    PLAYER.location(SUTTER_CREEK)
   end
 
   # During the first three locations a prospector searches, they shall leave a location
@@ -169,7 +169,7 @@ class Game < Location
 
   # Play the game
   def play(which_player)
-    PLAYER.set_name(which_player)
+    PLAYER.name(which_player)
     display_starting_message
     while PLAYER.visits < 5
       while search(PLAYER.current_location)

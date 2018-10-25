@@ -12,7 +12,7 @@ class Location
     @max_silver = max_silver
     @max_gold = max_gold
     @amt_neighbors = amt_neighbors
-    @neighbors = NULL
+    @neighbors = nil
   end
 
   def set_neighbors(first_neighbor, second_neighbor, third_neighbor, fourth_neighbor)
