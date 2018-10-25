@@ -89,7 +89,7 @@ class Game < Location
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
     puts "\t#{get_units(PLAYER.gold)} of gold."
     puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency(PLAYER.gold, PLAYER.silver)}"
+    puts "\tHeading home with #{convert_currency(PLAYER.gold, PLAYER.silver)}\n"
   end
 
   # Converts currency to dollars
