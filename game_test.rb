@@ -30,7 +30,7 @@ class GameTest < Minitest::Test
 	end
 
   def test_get_units_ounce_less_1
-    assert_raise @g.get_units(-1), UnitError
+    assert_raise @g.get_units(-1), "Cannot get less than 1 unit."
   end
 
 	# UNIT TESTS FOR METHOD
