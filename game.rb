@@ -63,9 +63,9 @@ class Game < Location
       display_no_metals_found(location)
     else
       print "\tFound "
-      display_metal_found(gold_found, 'gold') if gold_found > 0 
+      display_metal_found(gold_found, 'gold') if gold_found > 0
       print 'and ' if !silver_found.zero? && !gold_found.zero?
-      display_metal_found(silver_found, 'silver') if silver_found > 0 
+      display_metal_found(silver_found, 'silver') if silver_found > 0
       print "in #{location}\n"
     end
   end
@@ -128,12 +128,10 @@ class Game < Location
     return true if silver.zero? && gold.zero?
 
     min_gold, min_silver = PLAYER.prospect_min
-    if gold >= min_gold || silver >= min_silver
-      save(silver, gold)
-      return false
-    else 
-      return true
-    end
+    return true if gold < min_gold && silver < min_silver
+
+    save(silver, gold)
+    false
   end
 
   # Searches for gold in a given location. Prospects at the location until the miner finds
@@ -142,7 +140,7 @@ class Game < Location
     PLAYER.add_day
     gold_found, silver_found = prospect(location)
     display_findings(silver_found, gold_found, location.name)
-    return !stop_search?(silver_found, gold_found)
+    !stop_search?(silver_found, gold_found)
   end
 
   # Saves the amount of silver and gold found in one iteration to player data.
