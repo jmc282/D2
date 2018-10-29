@@ -70,7 +70,7 @@ class Game < Location
   # Called by display_findings to display how much of a metal was found at a location for one iteration.
 
   def display_metal_found(amount, metal, location)
-    return if amount < 0
+    return if amount <= 0
 
     puts "\tFound #{get_units(amount)} of #{metal} in #{location}"
   end
@@ -94,7 +94,7 @@ class Game < Location
 
   # Converts currency to dollars
   def convert_currency(gold, silver)
-    raise NegativeCurrencyError if gold < 0 || silver < 0
+    raise 'Currency cannot be negative.' if gold < 0 || silver < 0
 
     gold_currency = gold * 20.67
     silver_currency = silver * 1.31
@@ -157,7 +157,7 @@ class Game < Location
   # Sets the player's location to Sutter Creek.
   def reset_player
     PLAYER.reset
-    PLAYER.location(SUTTER_CREEK)
+    PLAYER.set_location(SUTTER_CREEK)
   end
 
   # During the first three locations a prospector searches, they shall leave a location
@@ -169,7 +169,7 @@ class Game < Location
 
   # Play the game
   def play(which_player)
-    PLAYER.name(which_player)
+    PLAYER.player_name(which_player)
     display_starting_message
     while PLAYER.visits < 5
       while search(PLAYER.current_location)
