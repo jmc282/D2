@@ -18,7 +18,7 @@ end
 # 3. The *num_prospectors* argument, when converted to an integer, is nonnegative
 # Returns false otherwise
 
-def check_args(args)
+def check_args args
   args.count == 2 && args[1].to_i > 0
 rescue StandardError
   false
