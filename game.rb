@@ -145,7 +145,7 @@ class Game < Location
   # less than 5 locations, set the player's current location to one of the location's
   # neighbors. Display the old and new locations.
   def move_from(location)
-    return Player.add_visit if Player.visits < 5
+    return PLAYER.add_visit if PLAYER.visits >= 5
 
     PLAYER.add_visit
     last_location = location.name
