@@ -40,7 +40,7 @@ if valid_args
   g = Game.new(seed)
   num_players.times do
     which_player += 1
-    g.play which_player.to_s
+    g.play(which_player.to_s)
   end
 else
   show_usage_and_exit
