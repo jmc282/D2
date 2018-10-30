@@ -4,7 +4,7 @@ require 'minitest/autorun'
 require_relative 'game'
 require_relative 'location.rb'
 require_relative 'player.rb'
-# Test Suite
+# Test Suite for game
 class GameTest < Minitest::Test
   # 10 is seed value
   def setup
@@ -101,4 +101,16 @@ class GameTest < Minitest::Test
   def test_stop_search_still_both
     assert_equal @g.stop_search?(1, 1), false
   end
+
+  # UNIT TESTS FOR METHOD next_location(location)
+  # Equivalence classes:
+  #
+
+  # UNIT TESTS FOR METHOD search(location, player)
+  # Equivalence classes:
+  #
+
+  # UNIT TESTS FOR METHOD search(location, player)
+  # Equivalence classes:
+  #
 end
