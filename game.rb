@@ -36,8 +36,8 @@ class Game < Location
   end
 
   # Displays the starting location of the player upon starting the game.
-  def display_starting_message
-    puts "Prospector #{PLAYER.name} starting in #{PLAYER.current_location.name}."
+  def display_starting_message(player)
+    puts "Prospector #{player.name} starting in #{player.current_location.name}."
   end
 
   # Displays which location the player is coming from, and where they are heading to.
@@ -136,8 +136,8 @@ class Game < Location
 
   # Searches for gold in a given location. Prospects at the location until the miner finds
   # less than the minimum gold and silver. Adds 1 day to the total.
-  def search(location)
-    PLAYER.add_day
+  def search(location, player)
+    player.add_day
     gold_found, silver_found = prospect(location)
     display_findings(silver_found, gold_found, location.name)
     !stop_search?(silver_found, gold_found)
@@ -178,9 +178,9 @@ class Game < Location
   # Play the game
   def play(which_player)
     PLAYER.player_name(which_player)
-    display_starting_message
+    display_starting_message(PLAYER)
     while PLAYER.visits < 5
-      while search(PLAYER.current_location)
+      while search(PLAYER.current_location, PLAYER)
       end
       move_from PLAYER.current_location
     end
