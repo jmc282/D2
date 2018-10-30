@@ -66,7 +66,7 @@ class Game < Location
       display_metal_found(gold_found, 'gold') if gold_found > 0
       print 'and ' if !silver_found.zero? && !gold_found.zero?
       display_metal_found(silver_found, 'silver') if silver_found > 0
-      print "in #{location}\n"
+      print "in #{location}.\n"
     end
   end
 
@@ -92,7 +92,7 @@ class Game < Location
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
     puts "\t#{get_units(PLAYER.gold)} of gold."
     puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency(PLAYER.silver, PLAYER.gold)}\n\n"
+    puts "\tHeading home with #{convert_currency(PLAYER.silver, PLAYER.gold)}.\n\n"
   end
 
   # Converts currency to dollars
@@ -165,7 +165,7 @@ class Game < Location
   # Sets the player's location to Sutter Creek.
   def reset_player
     PLAYER.reset
-    PLAYER.set_location(SUTTER_CREEK)
+    PLAYER.location(SUTTER_CREEK)
   end
 
   # During the first three locations a prospector searches, they shall leave a location
