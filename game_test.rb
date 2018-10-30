@@ -34,32 +34,6 @@ class GameTest < Minitest::Test
     end
   end
 
-  # UNIT TESTS FOR METHOD convert_currency(silver, gold)
-  # Equivalence classes:
-  # silver == 0 gold == 1 -> returns "$20.67"
-  # silver == 3 gold == 2 -> returns "45.27"
-  # silver < 0  -> raises 'Currency cannot be negative.'
-  # gold   < 0  -> raises 'Currency cannot be negative.'
-  def test_convert_currency
-    assert_equal @g.convert_currency(0, 1), '$20.67'
-  end
-
-  def test_convert_currency_mixed
-    assert_equal @g.convert_currency(3, 2), '$45.27'
-  end
-
-  def test_convert_currency_silver_negative
-    assert_raises 'Currency cannot be negative.' do
-      @g.convert_currency(-1, 0)
-    end
-  end
-
-  def test_convert_currency_gold_negative
-    assert_raises 'Currency cannot be negative.' do
-      @g.convert_currency(0, -1)
-    end
-  end
-
   # UNIT TESTS FOR METHOD display_findings(silver_found, gold_found, location)
   # Equivalence classes:
   # silver_found == 0 gold_found == 0 -> display no metals found
