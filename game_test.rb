@@ -2,6 +2,8 @@ require 'simplecov'
 SimpleCov.start
 require 'minitest/autorun'
 require_relative 'game'
+require_relative 'location.rb'
+require_relative 'player.rb'
 # Test Suite
 class GameTest < Minitest::Test
   # 10 is seed value
@@ -27,24 +29,55 @@ class GameTest < Minitest::Test
   end
 
   def test_get_units_ounce_less_1
-    assert_raise @g.get_units(-1), 'Cannot get less than 1 unit.'
+    assert_raises 'Cannot get less than 1 unit.' do
+      @g.get_units(-1)
+    end
   end
 
-  # UNIT TESTS FOR METHOD convert_currency(gold, silver)
+  # UNIT TESTS FOR METHOD convert_currency(silver, gold)
   # Equivalence classes:
-  # gold == 1 silver == 0 -> returns "$20.67"
-  # gold == 2 silver == 3 -> returns "45.27"
-  # gold < 0 silver < 0 -> raises 'Currency cannot be negative.'
+  # silver == 0 gold == 1 -> returns "$20.67"
+  # silver == 3 gold == 2 -> returns "45.27"
+  # silver < 0  -> raises 'Currency cannot be negative.'
+  # gold   < 0  -> raises 'Currency cannot be negative.'
   def test_convert_currency
-    assert_equal @g.convert_currency(1, 0), '$20.67'
+    assert_equal @g.convert_currency(0, 1), '$20.67'
   end
 
   def test_convert_currency_mixed
-    assert_equal @g.convert_currency(2, 3), '$45.27'
+    assert_equal @g.convert_currency(3, 2), '$45.27'
   end
 
-  def test_convert_currency_negative
-    assert_raise @g.convert_currency(-1, -1), 'Currency cannot be negative.'
+  def test_convert_currency_silver_negative
+    assert_raises 'Currency cannot be negative.' do
+      @g.convert_currency(-1, 0)
+    end
+  end
+
+  def test_convert_currency_gold_negative
+    assert_raises 'Currency cannot be negative.' do
+      @g.convert_currency(0, -1)
+    end
+  end
+
+  # UNIT TESTS FOR METHOD display_findings(silver_found, gold_found, location)
+  # Equivalence classes:
+  # silver_found == 0 gold_found == 0 -> display no metals found
+  # silver_found > 0 -> display metals found
+  # gold_found > 0   -> display metals found
+  def test_no_metal_found
+    @l = Location.new 'Sutter Creek', 0, 2, 2
+    assert_equal @g.display_findings(0, 0, @l), '\tFound no precious metals in Sutter Creek'
+  end
+
+  def test_positive_silver_found
+    @l = Location.new 'Sutter Creek', 0, 2, 2
+    assert_equal @g.display_findings(1, 0, @l), '\tFound 1 ounce of silver'
+  end
+
+  def test_positive_gold_found
+    @l = Location.new 'Sutter Creek', 0, 2, 2
+    assert_equal @g.display_findings(0, 1, @l), '\tFound no precious metals in Sutter Creek'
   end
 
   # UNIT TESTS FOR METHOD stop_search?(silver, gold)
