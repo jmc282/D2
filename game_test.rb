@@ -41,17 +41,17 @@ class GameTest < Minitest::Test
   # gold_found > 0   -> display metals found
   def test_no_metal_found
     @l = Location.new 'Sutter Creek', 0, 2, 2
-    assert_equal @g.display_findings(0, 0, @l), '\tFound no precious metals in Sutter Creek'
+    assert_output("\tFound no precious metals in Sutter Creek.\n") {@g.display_findings(0, 0, @l.name)}
   end
 
   def test_positive_silver_found
     @l = Location.new 'Sutter Creek', 0, 2, 2
-    assert_equal @g.display_findings(1, 0, @l), '\tFound 1 ounce of silver'
+    assert_output("\tFound 1 ounce of silver in Sutter Creek.\n") {@g.display_findings(1, 0, @l.name)}
   end
 
   def test_positive_gold_found
     @l = Location.new 'Sutter Creek', 0, 2, 2
-    assert_equal @g.display_findings(0, 1, @l), '\tFound no precious metals in Sutter Creek'
+    assert_output("\tFound 1 ounce of gold in Sutter Creek.\n") {@g.display_findings(0, 1, @l.name)}
   end
 
   # UNIT TESTS FOR METHOD stop_search?(silver, gold)

@@ -92,11 +92,12 @@ class Player
   # PROSPECTING
   #
 
-  # Returns minimum amounts for player to remain at location based on total visits
-  def prospect_min(player)
-    raise 'Must have an existing player' if player.nil?
+  # Returns the minimum amount of metal the miner must find at a location to continue prospecting.
+  # If the player is at their first, second, or third site, returns (min gold) 0, and (min silver) 0.
+  # If the player is at their fourth or fifth site, returns (min gold) 2, and (min silver) 3.  def prospect_min
+    raise 'Cannot have a minimum less than zero.' if @visits < 0
 
-    return [0, 0] if player.visits <= 3
+    return [0, 0] if player.visits <= 2
     [1, 2]
   end
 

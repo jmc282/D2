@@ -22,7 +22,7 @@ class Game < Location
   EL_DORADO.set_neighbors VIRGINIA_CITY, MIDAS, nil, nil
 
   # Set Player
-  PLAYER = Player.new SUTTER_CREEK, 0, 0
+  PLAYER = Player.new 0, 0
 
   # Initialization of game
   def initialize(seed)
@@ -41,9 +41,9 @@ class Game < Location
   end
 
   # Displays which location the player is coming from, and where they are heading to.
-  def display_move_from(last_location)
-    print "Heading from #{last_location} to #{PLAYER.current_location.name}, "
-    puts "holding #{get_units(PLAYER.gold)} of gold and #{get_units(PLAYER.silver)} of silver."
+  def display_move_from(last_location, player)
+    print "Heading from #{last_location} to #{player.current_location.name}, "
+    puts "holding #{get_units(player.gold)} of gold and #{get_units(player.silver)} of silver."
   end
 
   # Returns the amount of gold or silver with appropiate units in ounces.
@@ -80,29 +80,8 @@ class Game < Location
 
   # Called by display_findings if no silver or gold has been found at a location
   # to display that no metals have been found
-
   def display_no_metals_found(location)
     puts "\tFound no precious metals in #{location}."
-  end
-
-  # Displays the result of the game for one player:
-  # Includes the total number of days, name of the prospector,
-  # amount of gold, amount of silver, and the total money's worth of the metals.
-  def display_results
-    puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
-    puts "\t#{get_units(PLAYER.gold)} of gold."
-    puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency(PLAYER.silver, PLAYER.gold)}\n\n"
-  end
-
-  # Converts currency to dollars
-  def convert_currency(silver, gold)
-    raise 'Currency cannot be negative.' if gold < 0 || silver < 0
-
-    gold_currency = gold * 20.67
-    silver_currency = silver * 1.31
-    total_currency = gold_currency + silver_currency
-    '$' + total_currency.round(2).to_s
   end
 
   # Finds which location the miner heads to next, given the current location.
@@ -124,10 +103,10 @@ class Game < Location
   # Determines if the miner should stop searching at the current location.
   # Returns true if the miner finds no silver and no gold.
   # Saves the amount of precious metals found to player data.
-  def stop_search?(silver, gold)
+  def stop_search?(silver, gold, player)
     return true if silver.zero? && gold.zero?
 
-    min_gold, min_silver = PLAYER.prospect_min
+    min_gold, min_silver = player.prospect_min
     return true if gold < min_gold && silver < min_silver
 
     save(silver, gold)
@@ -158,14 +137,7 @@ class Game < Location
 
     last_location = location.name
     PLAYER.location(next_location(PLAYER.current_location))
-    display_move_from last_location
-  end
-
-  # Resets player data by setting the values of gold, silver, days, and visits to 0.
-  # Sets the player's location to Sutter Creek.
-  def reset_player
-    PLAYER.reset
-    PLAYER.set_location(SUTTER_CREEK)
+    display_move_from(last_location, PLAYER)
   end
 
   # During the first three locations a prospector searches, they shall leave a location
@@ -182,9 +154,9 @@ class Game < Location
     while PLAYER.visits < 5
       while search(PLAYER.current_location, PLAYER)
       end
-      move_from PLAYER.current_location
+      move_from(PLAYER.current_location, Player)
     end
-    display_results
-    reset_player
+    PLAYER.results
+    PLAYER.player_reset
   end
 end
