@@ -95,9 +95,10 @@ class Player
   # Returns the minimum amount of metal the miner must find at a location to continue prospecting.
   # If the player is at their first, second, or third site, returns (min gold) 0, and (min silver) 0.
   # If the player is at their fourth or fifth site, returns (min gold) 2, and (min silver) 3.  def prospect_min
+  def prospect_min
     raise 'Cannot have a minimum less than zero.' if @visits < 0
 
-    return [0, 0] if player.visits <= 2
+    return [0, 0] if @visits <= 2
     [1, 2]
   end
 
@@ -107,24 +108,24 @@ class Player
 
   # Displays which location the player is coming from, and where they are heading to.
   def display_move_from(last_location)
-    print "Heading from #{last_location} to #{current_location.name}, "
-    puts "holding #{get_units(gold)} of gold and #{get_units(silver)} of silver."
+    print "Heading from #{last_location} to #{@current_location.name}, "
+    puts "holding #{get_units(@gold)} of gold and #{get_units(@silver)} of silver."
   end
 
   # Finds which location the miner heads to next, given the current location.
   # Pseudorandomly generates an integer and returns the neighboring location at that index.
-  def next_location(location)
-    n = random_int(0, location.amt_neighbors - 1)
-    location.neighbors[n]
+  def next_location
+    n = random_int(0, @location.amt_neighbors - 1)
+    @location.neighbors[n]
   end
 
   # Move player to new location
   def move_from(location)
     add_visit
-    return if visits >= 5
+    return if @visits >= 5
 
-    last_location = location.name
-    location(next_location(current_location))
+    last_location = @location.name
+    @location(next_location(@current_location))
     display_move_from(last_location)
   end
 
@@ -139,16 +140,13 @@ class Player
     set_location SUTTER_CREEK
   end
 
-
   # Displays the result of the game for one player:
   # Includes the total number of days, name of the prospector,
   # amount of gold, amount of silver, and the total money's worth of the metals.
-  def results(player)
-    raise 'Must have an existing player' if player.nil?
-
-    puts "After #{player.days} days, Prospector ##{player.name} returned to San Francisco with:"
-    puts "\t#{get_units(player.gold)} of gold."
-    puts "\t#{get_units(player.silver)} of silver."
-    puts "\tHeading home with #{convert_currency(player.silver, player.gold)}\n\n"
+  def results
+    puts "After #{@days} days, Prospector ##{@name} returned to San Francisco with:"
+    puts "\t#{get_units(@gold)} of gold."
+    puts "\t#{get_units(@silver)} of silver."
+    puts "\tHeading home with #{convert_currency(@silver, @gold)}\n\n"
   end
 end
