@@ -92,11 +92,11 @@ class Game < Location
     puts "After #{PLAYER.days} days, Prospector ##{PLAYER.name} returned to San Francisco with:"
     puts "\t#{get_units(PLAYER.gold)} of gold."
     puts "\t#{get_units(PLAYER.silver)} of silver."
-    puts "\tHeading home with #{convert_currency(PLAYER.gold, PLAYER.silver)}\n\n"
+    puts "\tHeading home with #{convert_currency(PLAYER.silver, PLAYER.gold)}\n\n"
   end
 
   # Converts currency to dollars
-  def convert_currency(gold, silver)
+  def convert_currency(silver, gold)
     raise 'Currency cannot be negative.' if gold < 0 || silver < 0
 
     gold_currency = gold * 20.67
