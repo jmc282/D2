@@ -102,6 +102,37 @@ class Player
     [1, 2]
   end
 
+  # Returns the amount of gold and silver found in one iteration at a given location
+  # 'Prospects' at a given location by generating pseudorandom integers for gold and silver
+  # between 0 and the location's maximum gold and silver values respectively.
+  def prospect(location)
+    gold = random_int(0, location.max_gold)
+    silver = random_int(0, location.max_silver)
+    [gold, silver]
+  end
+
+  # Searches for gold in a given location. Prospects at the location until the miner finds
+  # less than the minimum gold and silver. Adds 1 day to the total.
+  def search(location, player)
+    player.add_day
+    gold_found, silver_found = prospect(location)
+    display_findings(silver_found, gold_found, location.name)
+    !stop_search?(silver_found, gold_found)
+  end
+
+  # Determines if the miner should stop searching at the current location.
+  # Returns true if the miner finds no silver and no gold.
+  # Saves the amount of precious metals found to player data.
+  def stop_search?(silver, gold, player)
+    return true if silver.zero? && gold.zero?
+
+    min_gold, min_silver = player.prospect_min
+    return true if gold < min_gold && silver < min_silver
+
+    save(silver, gold)
+    false
+  end
+
   #
   # MOVEMENT/LOCATION FUNCTIONS
   #
@@ -138,6 +169,25 @@ class Player
   def player_reset
     reset
     set_location SUTTER_CREEK
+  end
+
+  # Saves the amount of silver and gold found in one iteration to player data.
+  def save(silver_found, gold_found)
+    PLAYER.add_silver(silver_found)
+    PLAYER.add_gold(gold_found)
+  end
+
+  # Displays the amount of silver or gold found in a single iteration.
+  def display_findings(silver_found, gold_found, location)
+    if silver_found.zero? && gold_found.zero?
+      display_no_metals_found(location)
+    else
+      print "\tFound "
+      display_metal_found(gold_found, 'gold') if gold_found > 0
+      print 'and ' if !silver_found.zero? && !gold_found.zero?
+      display_metal_found(silver_found, 'silver') if silver_found > 0
+      print "in #{location}\n"
+    end
   end
 
   # Displays the result of the game for one player:

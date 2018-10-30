@@ -71,7 +71,6 @@ class Game < Location
   end
 
   # Called by display_findings to display how much of a metal was found at a location for one iteration.
-
   def display_metal_found(amount, metal)
     return if amount <= 0
 
@@ -152,9 +151,9 @@ class Game < Location
     PLAYER.player_name(which_player)
     display_starting_message(PLAYER)
     while PLAYER.visits < 5
-      while search(PLAYER.current_location, PLAYER)
+      while search(PLAYER.current_location)
       end
-      move_from(PLAYER.current_location, Player)
+      move_from(PLAYER.current_location)
     end
     PLAYER.results
     PLAYER.player_reset
