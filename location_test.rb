@@ -8,12 +8,59 @@ require_relative 'player.rb'
 class LocationTest < Minitest::Test
   # 10 is seed value
   def setup
-    @g = Game.new(10)
+    @l = Location.new 'Sutter Creek', 0, 2, 2
   end
 
-  # UNIT TESTS FOR METHOD method?(args?)
+  # UNIT TESTS FOR METHOD display_findings(silver_found, gold_found)
   # Equivalence classes:
-  # classes go here
+  # silver_found == 0 gold_found == 0 -> display no metals found
+  # silver_found > 0 -> display metals found
+  # gold_found > 0   -> display metals found
+  def test_no_metal_found
+    assert_output("\tFound no precious metals in Sutter Creek.\n") { @l.display_findings(0, 0) }
+  end
 
+  def test_positive_silver_found
+    assert_output("\tFound 1 ounce of silver in Sutter Creek.\n") { @l.display_findings(1, 0) }
+  end
 
+  def test_positive_gold_found
+    assert_output("\tFound 1 ounce of gold in Sutter Creek.\n") { @l.display_findings(0, 1) }
+  end
+
+  # UNIT TESTS FOR METHOD display_metal_found(amount, metal)
+  # Equivalence classes:
+  # amount = 0  -> puts '1 ounce of metal'
+  # amount > 0  -> puts 'x ounces of metal'
+  # amount <= 0 -> returns nil
+  def test_metal_found_one
+    assert_output('1 ounce of gold ') {@l.display_metal_found(1, 'gold')}
+  end
+
+  def test_metal_found_some
+    assert_output('3 ounces of adamantite ') {@l.display_metal_found(3, 'adamantite')}
+  end
+
+  def test_metal_found_none
+    assert_nil @l.display_metal_found(0, 'silver')
+  end
+
+  # UNIT TESTS FOR METHOD get_units(amount)
+  # Equivalence classes:
+  # amount < 0  -> raises 'Cannot get less than 1 unit.'
+  # amount = 1  -> returns '1 ounce'
+  # amount != 1 -> returns 'x ounces'
+  def test_get_negative_unit
+    assert_raises 'Cannot get less than 0 units.' do
+      @l.get_units(-2)
+    end
+  end
+
+  def test_get_one_unit
+    assert_equal @l.get_units(1), '1 ounce'
+  end
+
+  def test_get_some_unit
+    assert_equal @l.get_units(3), '3 ounces'
+  end
 end
