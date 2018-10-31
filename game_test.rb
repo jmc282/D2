@@ -148,10 +148,12 @@ class GameTest < Minitest::Test
   end
 
   # UNIT TESTS FOR METHOD display_starting_message(player)
+  # STUBBING
   def test_display_starting_message
-    @player = Player.new @sutter_creek, 0, 0
-    @player.name = '1'
-    assert_output("Prospector 1 starting in Sutter Creek.\n") { @g.display_starting_message(@player) }
+    mock_player = Minitest::Mock.new("Player")
+    def mock_player.name; 1; end
+    def mock_player.current_location; Location.new('Sutter Creek', 0, 0, 0); end
+    assert_output("Prospector 1 starting in Sutter Creek.\n") { @g.display_starting_message(mock_player) }
   end
 
   # UNIT TESTS FOR METHOD reset(player)
@@ -168,6 +170,7 @@ class GameTest < Minitest::Test
 
   # UNIT TESTS FOR METHOD display_results(player)
   # should just show set values with variable and printed names matching e.g. 6 days, prospector 2, 2 gold
+  # STUBBING
   def test_display_results
     mock_player = Minitest::Mock.new("Player")
     def mock_player.days; 6; end
