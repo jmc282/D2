@@ -39,6 +39,7 @@ class PlayerTest < Minitest::Test
   # [2,3]
 
   # If visits is negative, raises error
+  # EDGE CASE
   def test_prospect_min_negative
     @player.visits = -1
     assert_raises('Cannot have a minimum less than zero.') { @player.prospect_min }

@@ -46,6 +46,7 @@ class GameTest < Minitest::Test
   end
 
   # if amount is less than 0, raise error
+  # EDGE CASE
   def test_get_units_ounce_less_1
     assert_raises 'Cannot get less than 1 unit.' do
       @g.get_units(-1)
@@ -76,6 +77,7 @@ class GameTest < Minitest::Test
   end
 
   # If silver is negative, error should be raised
+  # EDGE CASE
   def test_convert_currency_silver_negative
     assert_raises 'Currency cannot be negative.' do
       @g.convert_currency(-1, 0)
@@ -83,6 +85,7 @@ class GameTest < Minitest::Test
   end
 
   # If gold is negative, error should be raised
+  # EDGE CASE
   def test_convert_currency_gold_negative
     assert_raises 'Currency cannot be negative.' do
       @g.convert_currency(0, -1)

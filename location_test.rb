@@ -55,6 +55,7 @@ class LocationTest < Minitest::Test
   end
 
   # If no metal found, should return nil
+  # EDGE CASE
   def test_metal_found_none
     assert_nil @l.display_metal_found(0, 'silver')
   end
@@ -66,6 +67,7 @@ class LocationTest < Minitest::Test
   # amount != 1 -> returns 'x ounces'
 
   # If negative amount, raises error
+  # EDGE CASE
   def test_get_negative_unit
     assert_raises 'Cannot get less than 0 units.' do
       @l.get_units(-2)
