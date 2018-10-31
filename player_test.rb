@@ -12,20 +12,20 @@ class PlayerTest < Minitest::Test
     @player = Player.new nil, 0, 0
   end
 
-  # UNIT TESTS FOR METHOD player_name(name)
+  # UNIT TEST FOR METHOD player_name(name)
   def test_player_name
     @player.player_name('Bob')
     assert_equal('Bob', @player.name)
   end
 
-  # UNIT TESTS FOR METHOD add_day
+  # UNIT TEST FOR METHOD add_day
   def test_add_day
     @player.days = 1
     @player.add_day
     assert_equal(2, @player.days)
   end
 
-  # UNIT TESTS FOR METHOD add_visit
+  # UNIT TEST FOR METHOD add_visit
   def test_add_visit
     @player.visits = 1
     @player.add_visit
@@ -37,16 +37,20 @@ class PlayerTest < Minitest::Test
   # raise 'Cannot have a minimum less than zero.' if @visits < 0
   # return [0, 0] if @visits <= 2
   # [2,3]
+
+  # If visits is negative, raises error
   def test_prospect_min_negative
     @player.visits = -1
     assert_raises('Cannot have a minimum less than zero.') { @player.prospect_min }
   end
 
+  # If visits is zero, returns array of two zeroes
   def test_prospect_min_zero
     @player.visits = 0
     assert_equal([0, 0], @player.prospect_min)
   end
 
+  # If visits is greater than 3, returns 2 and 3 in array
   def test_prosect_min_last_two
     @player.visits = 4
     assert_equal([2, 3], @player.prospect_min)
