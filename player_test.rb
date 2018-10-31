@@ -9,31 +9,46 @@ class PlayerTest < Minitest::Test
   # 10 is seed value
   def setup
     @g = Game.new(10)
+    @player = Player.new nil, 0, 0
   end
 
-  # UNIT TESTS FOR METHOD convert_currency(silver, gold)
+  # UNIT TESTS FOR METHOD player_name(name)
+  def test_player_name
+    @player.player_name('Bob')
+    assert_equal('Bob', @player.name)
+  end
+
+  # UNIT TESTS FOR METHOD add_day
+  def test_add_day
+    @player.days = 1
+    @player.add_day
+    assert_equal(2, @player.days)
+  end
+
+  # UNIT TESTS FOR METHOD add_visit
+  def test_add_visit
+    @player.visits = 1
+    @player.add_visit
+    assert_equal(2, @player.visits)
+  end
+
+  # UNIT TESTS FOR METHOD add_visit
   # Equivalence classes:
-  # silver == 0 gold == 1 -> returns "$20.67"
-  # silver == 3 gold == 2 -> returns "45.27"
-  # silver < 0  -> raises 'Currency cannot be negative.'
-  # gold   < 0  -> raises 'Currency cannot be negative.'
-  def test_convert_currency
-    assert_equal @g.convert_currency(0, 1), '$20.67'
+  # raise 'Cannot have a minimum less than zero.' if @visits < 0
+  # return [0, 0] if @visits <= 2
+  # [2,3]
+  def test_prospect_min_negative
+    @player.visits = -1
+    assert_raises('Cannot have a minimum less than zero.') { @player.prospect_min }
   end
 
-  def test_convert_currency_mixed
-    assert_equal @g.convert_currency(3, 2), '$45.27'
+  def test_prospect_min_zero
+    @player.visits = 0
+    assert_equal([0, 0], @player.prospect_min)
   end
 
-  def test_convert_currency_silver_negative
-    assert_raises 'Currency cannot be negative.' do
-      @g.convert_currency(-1, 0)
-    end
-  end
-
-  def test_convert_currency_gold_negative
-    assert_raises 'Currency cannot be negative.' do
-      @g.convert_currency(0, -1)
-    end
+  def test_prosect_min_last_two
+    @player.visits = 4
+    assert_equal([2, 3], @player.prospect_min)
   end
 end
