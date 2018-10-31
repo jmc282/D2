@@ -5,10 +5,8 @@ require_relative 'location.rb'
 # exits with code 1 to indicate there was an error
 
 def show_usage_and_exit
-  puts 'Usage:'
-  puts 'ruby gold_rush.rb *seed* *num_prospectors*'
-  puts '*seed* should be an integer'
-  puts '*num_prospectors* should be a non-negative integer'
+  puts "Usage:\nruby gold_rush.rb *seed* *num_prospectors*"
+  puts "*seed* should be an integer\n*num_prospectors* should be a non-negative integer"
   exit 1
 end
 
@@ -18,7 +16,7 @@ end
 # 3. The *num_prospectors* argument, when converted to an integer, is nonnegative
 # Returns false otherwise
 
-def check_args(args)
+def valid_args?(args)
   args.count == 2 && args[1].to_i > 0
 rescue StandardError
   false
@@ -26,22 +24,15 @@ end
 
 # EXECUTION STARTS HERE
 
-# Verify that the arguments are valid
-
-valid_args = check_args ARGV
-
 # If arguments are valid, create a new game using *seed* and *num_players* arguments, and play the game
 # Otherwise, show proper usage message and exit program
 
-if valid_args
-  which_player = 0
-  seed = ARGV[0].to_i
-  num_players = ARGV[1].to_i
-  g = Game.new(seed)
-  num_players.times do
-    which_player += 1
-    g.play(which_player.to_s)
-  end
-else
-  show_usage_and_exit
+show_usage_and_exit unless valid_args?(ARGV)
+
+which_player = 0
+num_players = ARGV[1].to_i
+g = Game.new(ARGV[0].to_i)
+num_players.times do
+  which_player += 1
+  g.play(which_player.to_s)
 end
