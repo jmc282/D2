@@ -151,7 +151,7 @@ class Game < Location
 
   # Increment the number of locations the miner has visited. If the miner has visited
   # less than 5 locations, set the player's current location to one of the location's
-  # neighbors. Display the old and new locations.
+  # neighbors.
   def move_from_location(player)
     player.add_visit
     return if player.visits >= 5
