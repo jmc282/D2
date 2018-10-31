@@ -102,8 +102,18 @@ class GameTest < Minitest::Test
 
   # UNIT TESTS FOR METHOD prospect(location) returns [gold,silver]
   # Equivalence classes:
+  # valid: any number combination with mins less than locations max_gold and max_silver
+  # invalid: any number combination with a value higher than location's min
   def test_prospect
     assert_includes([[0, 0], [1, 1], [2, 0]], @g.prospect(@virginia_city))
+  end
+
+  # Test forced mins
+  def test_prospect_mins
+    mock_location = Minitest::Mock.new("Location")
+    def mock_location.max_gold; 0; end
+    def mock_location.max_silver; 0; end
+    assert_equal([0, 0], @g.prospect(mock_location))
   end
 
   # UNIT TESTS FOR METHOD search(location, player)
@@ -159,15 +169,15 @@ class GameTest < Minitest::Test
   # UNIT TESTS FOR METHOD display_results(player)
   # should just show set values with variable and printed names matching e.g. 6 days, prospector 2, 2 gold
   def test_display_results
-    @player = Player.new @sutter_creek, 0, 0
-    @player.name = 2
-    @player.gold = 2
-    @player.silver = 0
-    @player.days = 6
+    mock_player = Minitest::Mock.new("Player")
+    def mock_player.days; 6; end
+    def mock_player.name; 2; end
+    def mock_player.gold; 2; end
+    def mock_player.silver; 0; end
     assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n" +
       "\t2 ounces of gold.\n"   +
       "\t0 ounces of silver.\n" +
-      "\tHeading home with $41.34.\n\n") { @g.display_results(@player) }
+      "\tHeading home with $41.34.\n\n") { @g.display_results(mock_player) }
   end
 
   # UNIT TESTS FOR METHOD move_from(location, player)

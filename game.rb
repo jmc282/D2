@@ -99,7 +99,7 @@ class Game < Location
   def stop_search?(silver, gold)
     return true if silver.zero? && gold.zero?
 
-    min_gold, min_silver = PLAYER.prospect_min
+    min_gold, min_silver = PLAYER.prospect_min(PLAYER)
     return true if gold < min_gold && silver < min_silver
 
     save(silver, gold)
