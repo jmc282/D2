@@ -164,14 +164,10 @@ class GameTest < Minitest::Test
     @player.gold = 2
     @player.silver = 0
     @player.days = 6
-<<<<<<< HEAD
     assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n" +
       "\t2 ounces of gold.\n"   +
       "\t0 ounces of silver.\n" +
       "\tHeading home with $41.34.\n\n") { @g.display_results(@player) }
-=======
-    assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n\t2 ounces of gold.\n\t0 ounces of silver.\n\tHeading home with $41.34.\n\n") { @g.display_results(@player) }
->>>>>>> f732b9d2e712bb9b58f7bf7b568e23f9c7783489
   end
 
   # UNIT TESTS FOR METHOD move_from(location, player)
@@ -197,11 +193,7 @@ class GameTest < Minitest::Test
     @player.current_location = @coloma
     @player.gold = 0
     @player.silver = 0
-<<<<<<< HEAD
     assert_output("Heading from Sutter Creek to Coloma, " +
       "holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
-=======
-    assert_output("Heading from Sutter Creek to Coloma, holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
->>>>>>> f732b9d2e712bb9b58f7bf7b568e23f9c7783489
   end
 end
