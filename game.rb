@@ -57,34 +57,6 @@ class Game < Location
     end
   end
 
-  # Displays the amount of silver or gold found in a single iteration.
-  def display_findings(silver_found, gold_found, location)
-    if silver_found.zero? && gold_found.zero?
-      display_no_metals_found(location)
-    else
-      print "\tFound "
-      display_metal_found(gold_found, 'gold') if gold_found > 0
-      print 'and ' if !silver_found.zero? && !gold_found.zero?
-      display_metal_found(silver_found, 'silver') if silver_found > 0
-      print "in #{location}.\n"
-    end
-  end
-
-  # Called by display_findings to display how much of a metal was found at a location for one iteration.
-
-  def display_metal_found(amount, metal)
-    return if amount <= 0
-
-    print "#{get_units(amount)} of #{metal} "
-  end
-
-  # Called by display_findings if no silver or gold has been found at a location
-  # to display that no metals have been found
-
-  def display_no_metals_found(location)
-    puts "\tFound no precious metals in #{location}."
-  end
-
   # Displays the result of the game for one player:
   # Includes the total number of days, name of the prospector,
   # amount of gold, amount of silver, and the total money's worth of the metals.
@@ -139,7 +111,7 @@ class Game < Location
   def search(location, player)
     player.add_day
     gold_found, silver_found = prospect(location)
-    display_findings(silver_found, gold_found, location.name)
+    location.display_findings(silver_found, gold_found)
     !stop_search?(silver_found, gold_found)
   end
 
