@@ -124,11 +124,9 @@ class GameTest < Minitest::Test
     assert_equal(@g.stop_search?(0, 0), true)
   end
 
-  # If silver and gold are both less than prospect_min, return true
+  # If silver and gold are both less than prospect_min (0, 0) since player here has 0 visits, return true
   def test_stop_search_not_enough
-    @g.PLAYER.visits = 4
-    assert_equal(@g.stop_search?(1, 1), true)
-    @g.PlAYER.visits = 2
+    assert_equal(@g.stop_search?(0, 0), true)
   end
 
   # If they're greater than prospect_min, return true
