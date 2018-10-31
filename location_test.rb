@@ -35,7 +35,7 @@ class LocationTest < Minitest::Test
 
   # If both are found, print both
   def test_both_found
-    assert_output("\tFound 2 ounces of gold and 3 ounces of silver in Sutter Creek.\n") { @l.display_findings(2, 3) }
+    assert_output("\tFound 2 ounces of gold and 3 ounces of silver in Sutter Creek.\n") { @l.display_findings(3, 2) }
   end
 
   # UNIT TESTS FOR METHOD display_metal_found(amount, metal)
