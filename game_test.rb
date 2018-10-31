@@ -34,14 +34,18 @@ class GameTest < Minitest::Test
   # amount == 1 -> returns "1 ounce"
   # amount != 1 -> returns "#{amount} ounces"
   # amount == (not a number)??
+
+  # if amount is 1, return singular
   def test_get_units_ounce
     assert_equal @g.get_units(1), '1 ounce'
   end
 
+  # if amount is greater than 1, return plural
   def test_get_units_ounces
     assert_equal @g.get_units(5), '5 ounces'
   end
 
+  # if amount is less than 0, raise error
   def test_get_units_ounce_less_1
     assert_raises 'Cannot get less than 1 unit.' do
       @g.get_units(-1)
@@ -51,49 +55,38 @@ class GameTest < Minitest::Test
   # UNIT TESTS FOR METHOD convert_currency(silver, gold)
   # Equivalence classes:
   # silver == 0 gold == 1 -> returns "$20.67"
+  # silver == 1 gold == 0 -> return "$1.31"
   # silver == 3 gold == 2 -> returns "45.27"
   # silver < 0  -> raises 'Currency cannot be negative.'
   # gold   < 0  -> raises 'Currency cannot be negative.'
-  def test_convert_currency
+
+  # If only gold, output should be string of $ and gold*20.67
+  def test_convert_currency_gold
     assert_equal @g.convert_currency(0, 1), '$20.67'
   end
 
+  # If only silver, output should be string of $ and silver*1.31
+  def test_convert_currency_silver
+    assert_equal @g.convert_currency(1, 0), '$1.31'
+  end
+
+  # If both are positive, output should be string of $ and gold*20.67+silver*1.31
   def test_convert_currency_mixed
     assert_equal @g.convert_currency(3, 2), '$45.27'
   end
 
+  # If silver is negative, error should be raised
   def test_convert_currency_silver_negative
     assert_raises 'Currency cannot be negative.' do
       @g.convert_currency(-1, 0)
     end
   end
 
+  # If gold is negative, error should be raised
   def test_convert_currency_gold_negative
     assert_raises 'Currency cannot be negative.' do
       @g.convert_currency(0, -1)
     end
-  end
-
-  # UNIT TESTS FOR METHOD stop_search?(silver, gold)
-  # Equivalence classes:
-  # silver == 0, gold == 0  true
-  # silver == 0, gold != 0  false
-  # silver != 0, gold == 0  false
-  # silver != 0, gold != 0  false
-  def test_stop_search_if_none_found
-    assert_equal @g.stop_search?(0, 0), true
-  end
-
-  def test_stop_search_still_gold
-    assert_equal @g.stop_search?(0, 1), false
-  end
-
-  def test_stop_search_still_silver
-    assert_equal @g.stop_search?(1, 0), false
-  end
-
-  def test_stop_search_still_both
-    assert_equal @g.stop_search?(1, 1), false
   end
 
   # UNIT TESTS FOR METHOD next_location(location)
@@ -125,14 +118,20 @@ class GameTest < Minitest::Test
   # silver == 0 && gold == 0 -> true
   # gold < min_gold && silver < min_silver -> true
   # gold > min_gold || silver > min_silver -> false
+
+  # If silver and gold are both 0, return true
   def test_stop_search_found_none
     assert_equal(@g.stop_search?(0, 0), true)
   end
 
+  # If silver and gold are both less than prospect_min, return true
   def test_stop_search_not_enough
-    assert_equal(@g.stop_search?(0, 0), true)
+    @g.PLAYER.visits = 4
+    assert_equal(@g.stop_search?(1, 1), true)
+    @g.PlAYER.visits = 2
   end
 
+  # If they're greater than prospect_min, return true
   def test_stop_search_false
     assert_equal(@g.stop_search?(3, 3), false)
   end
@@ -173,6 +172,8 @@ class GameTest < Minitest::Test
   # UNIT TESTS FOR METHOD move_from(location, player)
   # player.visits < 5 -> location is one of its neighbors
   # player.visits >= 5 -> return, location remains same
+
+  # If player.visits is less than 5, location is changed to a neighbor
   def test_move_from_location
     @player.visits = 3
     @player.current_location = @sutter_creek
@@ -180,6 +181,7 @@ class GameTest < Minitest::Test
     assert_includes([@coloma, @angels_camp], @player.current_location)
   end
 
+  # If player.visits is greater than or equal to 5, location is not changed
   def test_do_not_move
     @player.visits = 7
     @player.current_location = @sutter_creek
