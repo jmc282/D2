@@ -74,23 +74,6 @@ class GameTest < Minitest::Test
     end
   end
 
-  # UNIT TESTS FOR METHOD display_findings(silver_found, gold_found, location)
-  # Equivalence classes:
-  # silver_found == 0 gold_found == 0 -> display no metals found
-  # silver_found > 0 -> display metals found
-  # gold_found > 0   -> display metals found
-  def test_no_metal_found
-    assert_output("\tFound no precious metals in Sutter Creek.\n") { @g.display_findings(0, 0, @sutter_creek.name) }
-  end
-
-  def test_positive_silver_found
-    assert_output("\tFound 1 ounce of silver in Sutter Creek.\n") { @g.display_findings(1, 0, @sutter_creek.name) }
-  end
-
-  def test_positive_gold_found
-    assert_output("\tFound 1 ounce of gold in Sutter Creek.\n") { @g.display_findings(0, 1, @sutter_creek.name) }
-  end
-
   # UNIT TESTS FOR METHOD stop_search?(silver, gold)
   # Equivalence classes:
   # silver == 0, gold == 0  true
@@ -168,16 +151,17 @@ class GameTest < Minitest::Test
   end
 
   # UNIT TESTS FOR METHOD display_results(player)
+  # should just show set values with variable and printed names matching e.g. 6 days, prospector 2, 2 gold
   def test_display_results
     @player = Player.new @sutter_creek, 0, 0
     @player.name = 2
     @player.gold = 2
     @player.silver = 0
     @player.days = 6
-    assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n
-      \t2 ounces of gold.\n
-      \t0 ounces of silver.\n
-      \tHeading home with $41.34.\n\n") { @g.display_results(@player) }
+    assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n" +
+      "\t2 ounces of gold.\n"   +
+      "\t0 ounces of silver.\n" +
+      "\tHeading home with $41.34.\n\n") { @g.display_results(@player) }
   end
 
   # UNIT TESTS FOR METHOD move_from(location, player)
@@ -203,7 +187,7 @@ class GameTest < Minitest::Test
     @player.current_location = @coloma
     @player.gold = 0
     @player.silver = 0
-    assert_output("Heading from Sutter Creek to Coloma,
-      holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
+    assert_output("Heading from Sutter Creek to Coloma, " +
+      "holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
   end
 end
