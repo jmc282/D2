@@ -129,6 +129,12 @@ class GameTest < Minitest::Test
 
   # UNIT TESTS FOR METHOD search(location, player)
   # Equivalence classes:
+  def test_search
+    @mock_loc = Location.new 'Fake Place', 0, 0, 0
+    @player = Player.new @mock_loc, 0, 0
+    assert_output("\tFound no precious metals in Fake Place.\n") { @g.search(@mock_loc, @player)}
+  end
+
 
   # UNIT TESTS FOR METHOD stop_search?(silver, gold)
   # min_gold = 2 and min_silver = 3 if the player is on their last or penultimate location visit.
@@ -174,10 +180,7 @@ class GameTest < Minitest::Test
     @player.gold = 2
     @player.silver = 0
     @player.days = 6
-    assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n
-      \t2 ounces of gold.\n
-      \t0 ounces of silver.\n
-      \tHeading home with $41.34.\n\n") { @g.display_results(@player) }
+    assert_output("After 6 days, Prospector #2 returned to San Francisco with:\n\t2 ounces of gold.\n\t0 ounces of silver.\n\tHeading home with $41.34.\n\n") { @g.display_results(@player) }
   end
 
   # UNIT TESTS FOR METHOD move_from(location, player)
@@ -203,7 +206,6 @@ class GameTest < Minitest::Test
     @player.current_location = @coloma
     @player.gold = 0
     @player.silver = 0
-    assert_output("Heading from Sutter Creek to Coloma,
-      holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
+    assert_output("Heading from Sutter Creek to Coloma, holding 0 ounces of gold and 0 ounces of silver.\n") { @g.display_move_from(@sutter_creek, @player) }
   end
 end
