@@ -39,14 +39,13 @@ class PlayerTest < Minitest::Test
   # [2,3]
 
   # If visits is negative, raises error
-  # EDGE CASE | STUBBING
+  # EDGE CASE
   def test_prospect_min_negative
     @player.visits = -1
     assert_raises('Cannot have a minimum less than zero.') { @player.prospect_min }
   end
 
   # If visits is zero, returns array of two zeroes
-  # STUBBING
   def test_prospect_min_zero
     mock_player = Minitest::Mock.new("Player")
     def mock_player.visits; 0; end

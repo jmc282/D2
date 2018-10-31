@@ -148,7 +148,6 @@ class GameTest < Minitest::Test
   end
 
   # UNIT TESTS FOR METHOD display_starting_message(player)
-  # STUBBING
   def test_display_starting_message
     mock_player = Minitest::Mock.new("Player")
     def mock_player.name; 1; end
@@ -170,7 +169,6 @@ class GameTest < Minitest::Test
 
   # UNIT TESTS FOR METHOD display_results(player)
   # should just show set values with variable and printed names matching e.g. 6 days, prospector 2, 2 gold
-  # STUBBING
   def test_display_results
     mock_player = Minitest::Mock.new("Player")
     def mock_player.days; 6; end
